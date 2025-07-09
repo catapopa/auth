@@ -23,6 +23,13 @@ export const initialState: AuthState = {
 export const authReducer = createReducer(
   initialState,
 
+  // Initialize Auth
+  on(AuthActions.initializeAuth, (state, { token }) => ({
+    ...state,
+    token,
+    isAuthenticated: true,
+  })),
+
   // Login
   on(AuthActions.login, (state) => ({
     ...state,

@@ -12,6 +12,23 @@ export class AuthEffects {
   private authService = inject(AuthService);
   private router = inject(Router);
 
+  initializeAuth$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.initializeAuth),
+      mergeMap(() =>
+        this.authService.getProfile().pipe(
+          map((user) => AuthActions.loadProfileSuccess({ user })),
+          catchError((error) => {
+            // If token is invalid, clear it and redirect to login
+            this.authService.removeToken();
+            this.router.navigate(['/login']);
+            return of(AuthActions.logout());
+          })
+        )
+      )
+    )
+  );
+
   login$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.login),

@@ -8,6 +8,11 @@ import {
 import { createAction, props } from '@ngrx/store';
 
 // Auth Actions
+export const initializeAuth = createAction(
+  '[Auth] Initialize',
+  props<{ token: string }>()
+);
+
 export const login = createAction(
   '[Auth] Login',
   props<{ credentials: LoginDto }>()

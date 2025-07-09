@@ -21,7 +21,7 @@ export class AppComponent implements OnInit {
     // Initialize authentication state if token exists
     const token = this.authService.getToken();
     if (token) {
-      this.store.dispatch(AuthActions.loadProfile());
+      this.store.dispatch(AuthActions.initializeAuth({ token }));
     }
   }
 }

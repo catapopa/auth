@@ -9,9 +9,8 @@ import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import Aura from '@primeng/themes/aura';
 import { routes } from './app.routes';
-import { authReducer } from './store/auth.reducer';
-import { AuthEffects } from './store/auth.effects';
-import { authInterceptor } from './interceptors/auth.interceptor';
+import { authReducer, AuthEffects } from './features/auth/store';
+import { authInterceptor } from './core/interceptors';
 
 export const appConfig: ApplicationConfig = {
   providers: [

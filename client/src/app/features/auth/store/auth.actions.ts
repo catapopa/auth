@@ -5,7 +5,7 @@ import {
   User,
   CreateUserDto,
   UpdateUserDto,
-} from '../models/auth.models';
+} from '../../../models/auth.models';
 
 // Auth Actions
 export const login = createAction(

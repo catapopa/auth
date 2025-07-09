@@ -3,7 +3,7 @@ import { CanActivate, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
-import { selectIsAuthenticated } from '../store/auth.selectors';
+import { selectIsAuthenticated } from '../../features/auth/store/auth.selectors';
 
 @Injectable({
   providedIn: 'root',

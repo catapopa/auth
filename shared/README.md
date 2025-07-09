@@ -1,189 +1,145 @@
-# @auth/shared
+## Project Structure
 
-Shared types, interfaces, DTOs, constants, and utilities for the authentication application.
-
-## 📁 Structure
+The authentication app is a monorepo with shared TypeScript code:
 
 ```
-src/
-├── enums/                     # Enumeration types
-│   ├── user.enum.ts          # User role enumeration
-│   ├── user-status.enum.ts   # User status enumeration
-│   ├── http-status.enum.ts   # HTTP status codes
-│   └── index.ts              # Export all enums
-├── entities/                  # Domain entities
-│   ├── user.entity.ts        # User entity interface
-│   └── index.ts              # Export all entities
-├── dtos/                      # Data Transfer Objects
-│   ├── user.dto.ts           # User-related DTOs
-│   ├── auth.dto.ts           # Authentication DTOs
-│   └── index.ts              # Export all DTOs
-├── interfaces/                # Common interfaces
-│   ├── api.interface.ts      # API response interfaces
-│   ├── auth.interface.ts     # Authentication interfaces
-│   └── index.ts              # Export all interfaces
-├── constants/                 # Application constants
-│   ├── validation.constants.ts # Validation rules
-│   ├── api.constants.ts      # API endpoints
-│   ├── permissions.constants.ts # Role permissions
-│   └── index.ts              # Export all constants
-├── types/                     # Utility types
-│   ├── common.types.ts       # Common type definitions
-│   └── index.ts              # Export all types
-├── utils/                     # Utility functions
-│   ├── auth.utils.ts         # Authentication utilities
-│   ├── user.utils.ts         # User utilities
-│   ├── validation.utils.ts   # Validation utilities
-│   └── index.ts              # Export all utils
-└── index.ts                   # Main export file
+/Users/cpopa/Projects/auth/
+├── README.md                    # Main project documentation
+├── client/                      # Angular frontend
+├── server/                      # NestJS backend
+└── shared/                      # Shared TypeScript package
 ```
 
-## 🚀 Usage
+## Shared Package (`@auth/shared`)
 
-### Install
+The shared package contains only the minimal, truly shared code used by both frontend and backend:
 
-```bash
-npm install @auth/shared
+### Structure
+
+```
+shared/
+├── src/
+│   ├── enums/
+│   │   ├── user-role.enum.ts   # UserRole enum
+│   │   └── index.ts
+│   ├── entities/
+│   │   ├── user.entity.ts      # User interface
+│   │   └── index.ts
+│   ├── dtos/
+│   │   ├── user.dto.ts         # CreateUserDto, UpdateUserDto
+│   │   ├── auth.dto.ts         # LoginDto, LoginResponse
+│   │   └── index.ts
+│   ├── interfaces/
+│   │   ├── api.interface.ts    # ApiResponse, ApiError
+│   │   ├── auth.interface.ts   # JwtPayload
+│   │   └── index.ts
+│   └── index.ts                # Main exports
+├── package.json
+├── tsconfig.json
+├── .gitignore
+└── README.md
 ```
 
-### Import
+### Exported Types and Interfaces
+
+1. **Enums**
+
+   - `UserRole`: User role enumeration (ADMIN, USER)
+
+2. **Entities**
+
+   - `User`: Base user interface with id, email, names, role, status, timestamps
+
+3. **DTOs**
+
+   - `CreateUserDto`: Data for creating new users
+   - `UpdateUserDto`: Data for updating existing users
+   - `LoginDto`: Login credentials
+   - `LoginResponse`: Response after successful login
+
+4. **Interfaces**
+   - `ApiResponse<T>`: Standard API response wrapper
+   - `ApiError`: Error response structure
+   - `JwtPayload`: JWT token payload structure
+
+## Frontend Integration (`client/`)
+
+The Angular frontend imports shared types from `@auth/shared`:
 
 ```typescript
-// Import specific items
-import { UserRole, User, CreateUserDto } from "@auth/shared";
+// client/src/app/models/auth.models.ts
+import {
+  UserRole,
+  User,
+  CreateUserDto,
+  UpdateUserDto,
+  LoginDto,
+  LoginResponse,
+} from "@auth/shared";
 
-// Import utilities
-import { hasPermission, formatUserName, isValidEmail } from "@auth/shared";
+// Frontend-specific interface for NgRx state management
+export interface AuthState {
+  user: User | null;
+  token: string | null;
+  isAuthenticated: boolean;
+  loading: boolean;
+  error: string | null;
+}
 
-// Import constants
-import { API_ENDPOINTS, VALIDATION_RULES } from "@auth/shared";
+// Re-export for convenience
+export { UserRole } from "@auth/shared";
+export type {
+  User,
+  CreateUserDto,
+  UpdateUserDto,
+  LoginDto,
+  LoginResponse,
+} from "@auth/shared";
 ```
 
-## 📋 Available Exports
+## Backend Integration (`server/`)
 
-### Enums
+The NestJS backend extends shared interfaces with validation decorators and TypeORM decorators:
 
-- `UserRole` - Admin, User roles
-- `UserStatus` - Active, Inactive, Pending, Suspended
-- `HttpStatus` - HTTP status codes
+### Entity
 
-### Entities
+```typescript
+// server/src/users/user.entity.ts
+import { UserRole, User as IUser } from "@auth/shared";
 
-- `User` - User entity interface
-- `UserProfile` - User profile interface
+@Entity("users")
+export class User implements Omit<IUser, "createdAt" | "updatedAt"> {
+  // TypeORM decorators + shared interface implementation
+}
+```
 
 ### DTOs
 
-- `CreateUserDto` - Create user data transfer object
-- `UpdateUserDto` - Update user data transfer object
-- `LoginDto` - Login credentials
-- `LoginResponse` - Login response with token and user
-- `ChangePasswordDto` - Change password request
+```typescript
+// server/src/users/user.dto.ts
+import { UserRole, CreateUserDto as ICreateUserDto } from "@auth/shared";
 
-### Interfaces
+export class CreateUserDto implements ICreateUserDto {
+  @IsEmail()
+  email: string;
+  // Validation decorators + shared interface implementation
+}
+```
 
-- `ApiResponse<T>` - Standard API response wrapper
-- `PaginatedResponse<T>` - Paginated response wrapper
-- `ApiError` - Error response interface
-- `JwtPayload` - JWT token payload
-- `AuthState` - Authentication state
+## Benefits Achieved
 
-### Constants
+1. **Type Safety**: Shared interfaces ensure type consistency between frontend and backend
+2. **DRY Principle**: Common models, DTOs, and enums are defined once
+3. **Maintainability**: Changes to shared types automatically propagate to both apps
+4. **Minimal Overhead**: Only truly shared code is in the shared package
+5. **Flexible Architecture**: Each app can extend shared types with app-specific features
 
-- `VALIDATION_RULES` - Email, password, name validation rules
-- `API_ENDPOINTS` - All API endpoint paths
-- `PERMISSIONS` - Role-based permissions mapping
-- `ROLE_HIERARCHY` - Role hierarchy levels
+## Installation
 
-### Types
-
-- `Permission` - Available permission strings
-- `FormMode` - Form modes (create, edit, view)
-- `PaginationParams` - Pagination parameters
-- `UserFilters` - User filtering options
-
-### Utilities
-
-- `hasPermission(role, permission)` - Check role permissions
-- `isAdmin(role)` - Check if user is admin
-- `hasHigherRole(role1, role2)` - Compare role hierarchy
-- `formatUserName(user)` - Format user's full name
-- `getUserInitials(user)` - Get user initials
-- `maskEmail(email)` - Mask email for display
-- `isValidEmail(email)` - Validate email format
-- `isValidPassword(password)` - Validate password
-- `getPasswordStrength(password)` - Get password strength score
-
-## 🔧 Development
-
-### Build
+Each app automatically installs the shared package as a local dependency:
 
 ```bash
-npm run build
+# Automatically installed during the refactoring
+cd client && npm install ../shared
+cd server && npm install ../shared
 ```
-
-### Watch Mode
-
-```bash
-npm run watch
-```
-
-### Clean
-
-```bash
-npm run clean
-```
-
-## 📝 Examples
-
-### Permission Checking
-
-```typescript
-import { UserRole, hasPermission } from "@auth/shared";
-
-const canCreateUsers = hasPermission(UserRole.ADMIN, "users:create"); // true
-const canDeleteUsers = hasPermission(UserRole.USER, "users:delete"); // false
-```
-
-### User Utilities
-
-```typescript
-import { formatUserName, getUserInitials, maskEmail } from "@auth/shared";
-
-const user = { firstName: "John", lastName: "Doe" };
-const fullName = formatUserName(user); // "John Doe"
-const initials = getUserInitials(user); // "JD"
-const masked = maskEmail("john.doe@example.com"); // "j*****e@example.com"
-```
-
-### Validation
-
-```typescript
-import {
-  isValidEmail,
-  getPasswordStrength,
-  VALIDATION_RULES,
-} from "@auth/shared";
-
-const email = "user@example.com";
-const isValid = isValidEmail(email); // true
-
-const password = "StrongP@ss123";
-const strength = getPasswordStrength(password); // 4 (strong)
-
-const minPasswordLength = VALIDATION_RULES.PASSWORD.MIN_LENGTH; // 6
-```
-
-## 🤝 Contributing
-
-When adding new shared code:
-
-1. **Choose the right folder** based on the type of code
-2. **Follow naming conventions** (kebab-case for files, PascalCase for types)
-3. **Export from index.ts** in the appropriate folder
-4. **Add to main index.ts** if needed
-5. **Update this README** with new exports
-
-## 📄 License
-
-MIT

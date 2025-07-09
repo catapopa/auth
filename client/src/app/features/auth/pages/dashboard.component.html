@@ -1,0 +1,92 @@
+<div class="dashboard-container">
+  <div class="header">
+    <h1>User Management Dashboard</h1>
+    <div class="header-actions">
+      <span class="welcome-text">
+        Welcome, {{ (currentUser$ | async)?.firstName }}
+        {{ (currentUser$ | async)?.lastName }}!
+      </span>
+      <p-button
+        label="Logout"
+        icon="pi pi-sign-out"
+        severity="secondary"
+        (onClick)="logout()"
+      />
+    </div>
+  </div>
+
+  <p-card>
+    <div class="table-header">
+      <h3>Users</h3>
+      <p-button
+        *ngIf="isAdmin$ | async"
+        label="Add User"
+        icon="pi pi-plus"
+        (onClick)="showCreateDialog()"
+      />
+    </div>
+
+    <p-table
+      [value]="(users$ | async) || []"
+      [loading]="loading$ | async"
+      styleClass="p-datatable-gridlines"
+      [paginator]="true"
+      [rows]="10"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Status</th>
+          <th>Created</th>
+          <th *ngIf="isAdmin$ | async">Actions</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-user>
+        <tr>
+          <td>{{ user.firstName }} {{ user.lastName }}</td>
+          <td>{{ user.email }}</td>
+          <td>
+            <p-tag
+              [value]="user.role"
+              [severity]="user.role === 'admin' ? 'danger' : 'info'"
+            />
+          </td>
+          <td>
+            <p-tag
+              [value]="user.isActive ? 'Active' : 'Inactive'"
+              [severity]="user.isActive ? 'success' : 'warning'"
+            />
+          </td>
+          <td>{{ formatDate(user.createdAt) }}</td>
+          <td *ngIf="isAdmin$ | async">
+            <p-button
+              icon="pi pi-pencil"
+              severity="info"
+              size="small"
+              (onClick)="editUser(user)"
+              class="mr-2"
+            />
+            <p-button
+              icon="pi pi-trash"
+              severity="danger"
+              size="small"
+              (onClick)="deleteUser(user)"
+            />
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </p-card>
+
+  <app-user-dialog
+    [(visible)]="showDialog"
+    [user]="selectedUser"
+    [mode]="dialogMode"
+    (userSaved)="onUserSaved()"
+  />
+
+  <p-toast />
+  <p-confirmDialog />
+</div>

@@ -1,0 +1,55 @@
+<div class="login-container">
+  <p-card header="Login" styleClass="login-card">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="form-field">
+        <label for="email">Email</label>
+        <input
+          pInputText
+          id="email"
+          type="email"
+          formControlName="email"
+          class="w-full"
+          [class.ng-invalid]="
+            loginForm.get('email')?.invalid && loginForm.get('email')?.touched
+          "
+        />
+      </div>
+
+      <div class="form-field">
+        <label for="password">Password</label>
+        <p-password
+          id="password"
+          formControlName="password"
+          [feedback]="false"
+          styleClass="w-full"
+          [class.ng-invalid]="
+            loginForm.get('password')?.invalid &&
+            loginForm.get('password')?.touched
+          "
+        />
+      </div>
+
+      <p-message
+        *ngIf="error$ | async as error"
+        severity="error"
+        [text]="error"
+        styleClass="w-full mb-3"
+      />
+
+      <p-button
+        type="submit"
+        label="Login"
+        styleClass="w-full"
+        [loading]="loading$ | async"
+        [disabled]="loginForm.invalid"
+      />
+    </form>
+
+    <div class="mt-4 text-center">
+      <small>
+        <strong>Demo Credentials:</strong><br />
+        Admin: admin&#64;example.com / admin123
+      </small>
+    </div>
+  </p-card>
+</div>

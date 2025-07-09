@@ -7,7 +7,7 @@ import {
   User,
   CreateUserDto,
   UpdateUserDto,
-} from '../models/auth.models';
+} from '../../models/auth.models';
 
 @Injectable({
   providedIn: 'root',

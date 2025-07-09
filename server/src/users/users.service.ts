@@ -93,7 +93,7 @@ export class UsersService {
     });
 
     if (!adminExists) {
-      const hashedPassword = await bcrypt.hash('admin123', 10);
+      const hashedPassword = await bcrypt.hash('Admin@2024#Secure!', 10);
       const admin = this.usersRepository.create({
         email: 'admin@example.com',
         firstName: 'Admin',
@@ -102,7 +102,7 @@ export class UsersService {
         role: UserRole.ADMIN,
       });
       await this.usersRepository.save(admin);
-      console.log('Admin user seeded: admin@example.com / admin123');
+      console.log('Admin user seeded: admin@example.com / Admin@2024#Secure!');
     }
   }
 }

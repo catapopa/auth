@@ -28,7 +28,7 @@ import {
   UserRole,
   CreateUserDto,
   UpdateUserDto,
-} from '../models/auth.models';
+} from '../../../models/auth.models';
 import * as AuthActions from '../store/auth.actions';
 
 @Component({
@@ -44,121 +44,8 @@ import * as AuthActions from '../store/auth.actions';
     CheckboxModule,
     ButtonModule,
   ],
-  template: `
-    <p-dialog
-      [header]="dialogTitle"
-      [(visible)]="visible"
-      [modal]="true"
-      styleClass="user-dialog"
-      [style]="{ width: '450px' }"
-      (onHide)="onHide()"
-    >
-      <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
-        <div class="form-field">
-          <label for="firstName">First Name</label>
-          <input
-            pInputText
-            id="firstName"
-            formControlName="firstName"
-            class="w-full"
-          />
-        </div>
-
-        <div class="form-field">
-          <label for="lastName">Last Name</label>
-          <input
-            pInputText
-            id="lastName"
-            formControlName="lastName"
-            class="w-full"
-          />
-        </div>
-
-        <div class="form-field">
-          <label for="email">Email</label>
-          <input
-            pInputText
-            id="email"
-            type="email"
-            formControlName="email"
-            class="w-full"
-          />
-        </div>
-
-        <div class="form-field" *ngIf="mode === 'create'">
-          <label for="password">Password</label>
-          <p-password
-            id="password"
-            formControlName="password"
-            [feedback]="false"
-            styleClass="w-full"
-          />
-        </div>
-
-        <div class="form-field">
-          <label for="role">Role</label>
-          <p-dropdown
-            id="role"
-            formControlName="role"
-            [options]="roleOptions"
-            optionLabel="label"
-            optionValue="value"
-            styleClass="w-full"
-          />
-        </div>
-
-        <div class="form-field">
-          <p-checkbox
-            formControlName="isActive"
-            [binary]="true"
-            label="Active"
-            id="isActive"
-          />
-        </div>
-
-        <div class="dialog-footer">
-          <p-button
-            label="Cancel"
-            severity="secondary"
-            (onClick)="onCancel()"
-            class="mr-2"
-          />
-          <p-button
-            type="submit"
-            [label]="mode === 'create' ? 'Create' : 'Update'"
-            [disabled]="userForm.invalid"
-          />
-        </div>
-      </form>
-    </p-dialog>
-  `,
-  styles: [
-    `
-      .form-field {
-        margin-bottom: 1rem;
-      }
-
-      .form-field label {
-        display: block;
-        margin-bottom: 0.5rem;
-        font-weight: 500;
-      }
-
-      .dialog-footer {
-        display: flex;
-        justify-content: flex-end;
-        margin-top: 1.5rem;
-      }
-
-      :host ::ng-deep .p-password input {
-        width: 100%;
-      }
-
-      :host ::ng-deep .user-dialog .p-dialog-content {
-        padding: 1.5rem;
-      }
-    `,
-  ],
+  templateUrl: './user-dialog.component.html',
+  styleUrls: ['./user-dialog.component.scss'],
 })
 export class UserDialogComponent implements OnInit, OnChanges {
   @Input() visible = false;

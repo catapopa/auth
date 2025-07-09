@@ -13,10 +13,10 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto, UpdateUserDto } from './user.dto';
-import { Roles } from '../auth/roles.decorator';
 import { UserRole } from '@auth/shared';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/roles.guard';
+import { Roles } from 'src/auth/roles.decorator';
 
 @Controller('users')
 @UseInterceptors(ClassSerializerInterceptor)

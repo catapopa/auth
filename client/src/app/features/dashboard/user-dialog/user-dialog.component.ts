@@ -29,7 +29,7 @@ import {
   CreateUserDto,
   UpdateUserDto,
 } from '../../../models/auth.models';
-import * as AuthActions from '../store/auth.actions';
+import * as AuthActions from '../../auth/store/auth.actions';
 
 @Component({
   selector: 'app-user-dialog',

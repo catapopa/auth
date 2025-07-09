@@ -9,15 +9,15 @@ import { TagModule } from 'primeng/tag';
 import { DialogModule } from 'primeng/dialog';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { User } from '../../../models/auth.models';
-import { UserDialogComponent } from '../components/user-dialog.component';
-import * as AuthActions from '../store/auth.actions';
+import { User } from '../../models/auth.models';
+import { UserDialogComponent } from './user-dialog/user-dialog.component';
+import * as AuthActions from '../auth/store/auth.actions';
 import {
   selectUser,
   selectUsers,
   selectIsAdmin,
   selectAuthLoading,
-} from '../store/auth.selectors';
+} from '../auth/store/auth.selectors';
 
 @Component({
   selector: 'app-dashboard',

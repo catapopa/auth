@@ -9,6 +9,7 @@ import { TagModule } from 'primeng/tag';
 import { DialogModule } from 'primeng/dialog';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
 import { UserDialogComponent } from './user-dialog/user-dialog.component';
 import * as AuthActions from '../auth/store/auth.actions';
 import {
@@ -46,7 +47,10 @@ export class DashboardComponent implements OnInit {
   selectedUser: User | null = null;
   dialogMode: 'create' | 'edit' = 'create';
 
-  constructor(private store: Store) {
+  constructor(
+    private store: Store,
+    private confirmationService: ConfirmationService
+  ) {
     this.currentUser$ = this.store.select(selectUser);
     this.users$ = this.store.select(selectUsers);
     this.isAdmin$ = this.store.select(selectIsAdmin);
@@ -74,8 +78,15 @@ export class DashboardComponent implements OnInit {
   }
 
   deleteUser(user: User): void {
-    // TODO: Add confirmation dialog
-    this.store.dispatch(AuthActions.deleteUser({ id: user.id }));
+    this.confirmationService.confirm({
+      message: `Are you sure you want to delete user "${user.email}"? This action cannot be undone.`,
+      header: 'Confirm Deletion',
+      icon: 'pi pi-exclamation-triangle',
+      acceptButtonStyleClass: 'p-button-danger',
+      accept: () => {
+        this.store.dispatch(AuthActions.deleteUser({ id: user.id }));
+      },
+    });
   }
 
   onUserSaved(): void {

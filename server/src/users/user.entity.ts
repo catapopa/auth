@@ -6,14 +6,10 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
-
-export enum UserRole {
-  ADMIN = 'admin',
-  USER = 'user',
-}
+import { UserRole, User as IUser } from '@auth/shared';
 
 @Entity('users')
-export class User {
+export class User implements Omit<IUser, 'createdAt' | 'updatedAt'> {
   @PrimaryGeneratedColumn()
   id: number;
 

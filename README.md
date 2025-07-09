@@ -120,7 +120,15 @@ npm run migration:generate -- src/migrations/NewMigrationName
 npm run migration:create -- src/migrations/NewMigrationName
 ```
 
-### 3. Backend Setup
+### 3. Shared Package Setup
+
+```bash
+cd shared
+npm install
+npm run build  # Build shared types and utilities
+```
+
+### 4. Backend Setup
 
 ```bash
 cd server
@@ -134,7 +142,7 @@ The backend will start on `http://localhost:3000`
 
 **Note**: Migrations will create the database schema and seed the initial admin user.
 
-### 4. Frontend Setup
+### 5. Frontend Setup
 
 ```bash
 cd client
@@ -178,6 +186,30 @@ The application seeds an admin user on startup:
 
 ## 🏗 Architecture
 
+### Monorepo Structure
+
+The application follows a monorepo structure with shared types and utilities:
+
+```
+auth/
+├── client/                 # Angular frontend
+├── server/                 # NestJS backend
+└── shared/                 # Shared types and utilities
+    ├── src/
+    │   ├── types.ts        # Common interfaces and types
+    │   ├── constants.ts    # Shared constants and permissions
+    │   └── index.ts        # Exported utilities
+    └── package.json
+```
+
+### Shared Package Benefits
+
+- **Type Safety**: Consistent types between frontend and backend
+- **DRY Principle**: No duplication of interfaces and enums
+- **Maintainability**: Single source of truth for data models
+- **Validation**: Shared constants for validation rules
+- **Permissions**: Centralized role-based permissions
+
 ### Frontend Architecture
 
 ```
@@ -186,7 +218,7 @@ src/
 │   ├── components/          # UI components
 │   ├── guards/             # Route guards
 │   ├── interceptors/       # HTTP interceptors
-│   ├── models/             # TypeScript interfaces
+│   ├── models/             # TypeScript interfaces (to be replaced by shared)
 │   ├── services/           # API services
 │   └── store/              # NgRx store (actions, reducers, effects, selectors)
 ```

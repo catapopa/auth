@@ -6,9 +6,14 @@ import {
   IsOptional,
   MinLength,
 } from 'class-validator';
-import { UserRole } from './user.entity';
+import {
+  UserRole,
+  CreateUserDto as ICreateUserDto,
+  UpdateUserDto as IUpdateUserDto,
+  LoginDto as ILoginDto,
+} from '@auth/shared';
 
-export class CreateUserDto {
+export class CreateUserDto implements ICreateUserDto {
   @IsEmail()
   email: string;
 
@@ -33,7 +38,7 @@ export class CreateUserDto {
   isActive?: boolean;
 }
 
-export class UpdateUserDto {
+export class UpdateUserDto implements IUpdateUserDto {
   @IsEmail()
   @IsOptional()
   email?: string;
@@ -62,7 +67,7 @@ export class UpdateUserDto {
   isActive?: boolean;
 }
 
-export class LoginDto {
+export class LoginDto implements ILoginDto {
   @IsEmail()
   email: string;
 

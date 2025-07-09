@@ -1,47 +1,13 @@
-export enum UserRole {
-  ADMIN = 'admin',
-  USER = 'user',
-}
+import {
+  UserRole,
+  User,
+  CreateUserDto,
+  UpdateUserDto,
+  LoginDto,
+  LoginResponse,
+} from '@auth/shared';
 
-export interface User {
-  id: number;
-  email: string;
-  firstName: string;
-  lastName: string;
-  role: UserRole;
-  isActive: boolean;
-  createdAt?: string;
-  updatedAt?: string;
-}
-
-export interface CreateUserDto {
-  email: string;
-  firstName: string;
-  lastName: string;
-  password: string;
-  role?: UserRole;
-  isActive?: boolean;
-}
-
-export interface UpdateUserDto {
-  email?: string;
-  firstName?: string;
-  lastName?: string;
-  password?: string;
-  role?: UserRole;
-  isActive?: boolean;
-}
-
-export interface LoginDto {
-  email: string;
-  password: string;
-}
-
-export interface LoginResponse {
-  access_token: string;
-  user: User;
-}
-
+// Frontend-specific interface for NgRx state management
 export interface AuthState {
   user: User | null;
   token: string | null;
@@ -49,3 +15,13 @@ export interface AuthState {
   loading: boolean;
   error: string | null;
 }
+
+// Re-export shared types and values for convenience
+export { UserRole } from '@auth/shared';
+export type {
+  User,
+  CreateUserDto,
+  UpdateUserDto,
+  LoginDto,
+  LoginResponse,
+} from '@auth/shared';

@@ -16,6 +16,7 @@ export class AuthService {
       user &&
       (await this.usersService.validatePassword(password, user.password))
     ) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password: _, ...result } = user;
       return result;
     }

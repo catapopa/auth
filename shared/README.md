@@ -62,45 +62,6 @@ shared/
    - `ApiError`: Error response structure
    - `JwtPayload`: JWT token payload structure
 
-## Frontend Integration (`client/`)
-
-The Angular frontend imports shared types from `@auth/shared`:
-
-```typescript
-// client/src/app/models/auth.models.ts
-import {
-  UserRole,
-  User,
-  CreateUserDto,
-  UpdateUserDto,
-  LoginDto,
-  LoginResponse,
-} from "@auth/shared";
-
-// Frontend-specific interface for NgRx state management
-export interface AuthState {
-  user: User | null;
-  token: string | null;
-  isAuthenticated: boolean;
-  loading: boolean;
-  error: string | null;
-}
-
-// Re-export for convenience
-export { UserRole } from "@auth/shared";
-export type {
-  User,
-  CreateUserDto,
-  UpdateUserDto,
-  LoginDto,
-  LoginResponse,
-} from "@auth/shared";
-```
-
-## Backend Integration (`server/`)
-
-The NestJS backend extends shared interfaces with validation decorators and TypeORM decorators:
-
 ### Entity
 
 ```typescript

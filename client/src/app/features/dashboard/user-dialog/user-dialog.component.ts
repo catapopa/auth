@@ -23,13 +23,8 @@ import { DropdownModule } from 'primeng/dropdown';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ButtonModule } from 'primeng/button';
 
-import {
-  User,
-  UserRole,
-  CreateUserDto,
-  UpdateUserDto,
-} from '../../../models/auth.models';
 import * as AuthActions from '../../auth/store/auth.actions';
+import { CreateUserDto, UpdateUserDto, User, UserRole } from '@auth/shared';
 
 @Component({
   selector: 'app-user-dialog',

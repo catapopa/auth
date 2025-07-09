@@ -1,11 +1,11 @@
-import { createAction, props } from '@ngrx/store';
 import {
+  CreateUserDto,
   LoginDto,
   LoginResponse,
-  User,
-  CreateUserDto,
   UpdateUserDto,
-} from '../../../models/auth.models';
+  User,
+} from '@auth/shared';
+import { createAction, props } from '@ngrx/store';
 
 // Auth Actions
 export const login = createAction(

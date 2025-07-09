@@ -9,7 +9,6 @@ import { TagModule } from 'primeng/tag';
 import { DialogModule } from 'primeng/dialog';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { User } from '../../models/auth.models';
 import { UserDialogComponent } from './user-dialog/user-dialog.component';
 import * as AuthActions from '../auth/store/auth.actions';
 import {
@@ -18,6 +17,7 @@ import {
   selectIsAdmin,
   selectAuthLoading,
 } from '../auth/store/auth.selectors';
+import { User } from '@auth/shared';
 
 @Component({
   selector: 'app-dashboard',

@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {
+  CreateUserDto,
   LoginDto,
   LoginResponse,
-  User,
-  CreateUserDto,
   UpdateUserDto,
-} from '../../models/auth.models';
+  User,
+} from '@auth/shared';
 
 @Injectable({
   providedIn: 'root',

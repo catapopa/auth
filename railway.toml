@@ -2,7 +2,7 @@
 builder = "dockerfile"
 
 [deploy]
-dockerfilePath = "docker-compose.yml"
+dockerfilePath = "Dockerfile"
 
 [environments.production]
 variables = [

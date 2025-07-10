@@ -23,5 +23,5 @@ RUN echo "=== Build output ===" && ls -la dist/ && echo "=== Source directory ==
 
 EXPOSE 3000
 
-# Use the correct path - main.js is in dist/src/
-CMD ["node", "dist/src/main.js"]
+# Debug environment variables at startup
+CMD ["sh", "-c", "echo 'DATABASE_URL:' $DATABASE_URL && echo 'JWT_SECRET:' $JWT_SECRET && node dist/src/main.js"]

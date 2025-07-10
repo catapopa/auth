@@ -11,6 +11,9 @@ A full-stack application with Angular frontend and NestJS backend that implement
 - **State Management**: NgRx for frontend state management
 - **Database**: PostgreSQL with TypeORM
 - **Security**: Password hashing, JWT tokens, route guards
+- **API Documentation**: Swagger/OpenAPI documentation
+- **Testing**: Unit tests and e2e tests
+- **Code Quality**: ESLint, Prettier, TypeScript strict mode
 
 ## 🛠 Tech Stack
 
@@ -21,6 +24,7 @@ A full-stack application with Angular frontend and NestJS backend that implement
 - **PrimeNG** - UI component library
 - **TypeScript** - Type safety
 - **SCSS** - Styling
+- **ESLint** - Code linting
 
 ### Backend
 
@@ -30,6 +34,12 @@ A full-stack application with Angular frontend and NestJS backend that implement
 - **JWT** - Authentication tokens
 - **Passport** - Authentication middleware
 - **bcryptjs** - Password hashing
+- **Swagger** - API documentation
+
+### Shared
+
+- **TypeScript** - Shared types and interfaces
+- **Monorepo structure** - Code sharing between frontend and backend
 
 ## 📋 Prerequisites
 
@@ -56,19 +66,39 @@ The application uses TypeORM migrations for database schema management.
 - PostgreSQL installed and running
 - Database user with CREATE privileges
 
-#### Option 1: Automatic Setup (Recommended)
+#### Notes
+
+- Don't run Docker when using local PostgreSQL (they conflict on port 5432)
+- Database persists between restarts (unlike Docker setup)
+- Migrations only need to run once (unless you make schema changes)
+
+#### Option 1: Using Existing PostgreSQL (Recommended for Development)
+
+If you have PostgreSQL installed via Homebrew (most common on macOS):
 
 ```bash
-cd server
-./setup-db.sh  # Creates the database
-npm run build  # Compile TypeScript
-npm run migration:run  # Run migrations
-npm start     # Start the server
+# Check if PostgreSQL is running
+brew services list | grep postgres
+
+# Start PostgreSQL if not running
+brew services start postgresql@15
+
+# Create the database
+createdb auth_db
+
+# Then proceed to step 4 to run migrations
 ```
 
-#### Option 2: Manual Setup
+#### Option 2: Using Docker
 
-1. **Create the database**:
+```bash
+# Start Docker Desktop first, then:
+docker-compose up -d  # Start PostgreSQL in Docker
+
+# Then proceed to step 4 to run migrations
+```
+
+#### Option 3: Manual PostgreSQL Setup
 
 ```sql
 -- Connect to PostgreSQL as superuser
@@ -78,30 +108,6 @@ createdb auth_db
 psql -U postgres
 CREATE DATABASE auth_db;
 \q
-```
-
-2. **Run migrations**:
-
-```bash
-cd server
-npm run build
-npm run migration:run
-```
-
-#### Option 3: Using Docker
-
-```bash
-# Start PostgreSQL in Docker
-docker run --name postgres-auth \
-  -e POSTGRES_DB=auth_db \
-  -e POSTGRES_USER=postgres \
-  -e POSTGRES_PASSWORD=postgres \
-  -p 5432:5432 -d postgres
-
-# Then run migrations
-cd server
-npm run build
-npm run migration:run
 ```
 
 #### Migration Commands

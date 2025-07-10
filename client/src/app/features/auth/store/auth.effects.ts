@@ -18,7 +18,7 @@ export class AuthEffects {
       mergeMap(() =>
         this.authService.getProfile().pipe(
           map((user) => AuthActions.loadProfileSuccess({ user })),
-          catchError((error) => {
+          catchError(() => {
             // If token is invalid, clear it and redirect to login
             this.authService.removeToken();
             this.router.navigate(['/login']);

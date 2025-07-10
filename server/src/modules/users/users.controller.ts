@@ -12,7 +12,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto, UpdateUserDto, UserRole } from '@auth/shared';
+import { CreateUserDto, UpdateUserDto, UserRole, User } from '@auth/shared';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/roles.guard';
 import { Roles } from 'src/auth/roles.decorator';
@@ -35,6 +35,12 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
+  @Get('profile/me')
+  @UseGuards(JwtAuthGuard)
+  getProfile(@Request() req: { user: User }) {
+    return req.user;
+  }
+
   @Get(':id')
   @UseGuards(JwtAuthGuard)
   findOne(@Param('id') id: string) {
@@ -53,11 +59,5 @@ export class UsersController {
   @Roles(UserRole.ADMIN)
   remove(@Param('id') id: string) {
     return this.usersService.remove(+id);
-  }
-
-  @Get('profile/me')
-  @UseGuards(JwtAuthGuard)
-  getProfile(@Request() req) {
-    return req.user;
   }
 }

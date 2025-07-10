@@ -1,11 +1,29 @@
 #!/bin/bash
 # File: start-docker.sh
 
-echo "🐳 Starting Docker PostgreSQL..."
+echo "Installing dependencies..."
+echo "📦 Installing shared package..."
+cd shared && npm install && npm run build
+cd ..
+
+echo "📦 Installing server dependencies..."
+cd server && npm install
+cd ..
+
+echo "📦 Installing client dependencies..."
+cd client && npm install
+cd ..
+
+echo "�🐳 Starting Docker PostgreSQL..."
 docker-compose up -d
 
 echo "⏳ Waiting for database to be ready..."
-sleep 3
+sleep 5
+
+echo "🗄️ Setting up database..."
+cd server
+npm run migration:run
+cd ..
 
 echo "🔧 Starting backend..."
 cd server && npm run start:dev &

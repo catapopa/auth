@@ -1,13 +1,31 @@
 #!/bin/bash
 # File: start-local.sh
 
-echo "Starting PostgreSQL..."
+echo "🔧 Installing dependencies..."
+echo "📦 Installing shared package..."
+cd shared && npm install && npm run build
+cd ..
+
+echo "📦 Installing server dependencies..."
+cd server && npm install
+cd ..
+
+echo "📦 Installing client dependencies..."
+cd client && npm install
+cd ..
+
+echo "🐘 Starting PostgreSQL..."
 brew services start postgresql@15
 
-echo "Starting backend..."
+echo "🗄️ Setting up database..."
+cd server
+npm run migration:run
+cd ..
+
+echo "🔧 Starting backend..."
 cd server && npm run start:dev &
 
-echo "Starting frontend..."
+echo "🌐 Starting frontend..."
 cd client && npm start &
 
 echo "✅ Project running:"

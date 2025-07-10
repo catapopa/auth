@@ -1,54 +1,58 @@
-## Project Structure
+# Shared Package
 
-The authentication app is a monorepo with shared TypeScript code:
+TypeScript types and DTOs shared between frontend and backend.
 
-```
-/Users/cpopa/Projects/auth/
-├── README.md                    # Main project documentation
-├── client/                      # Angular frontend
-├── server/                      # NestJS backend
-└── shared/                      # Shared TypeScript package
-```
+## 📦 Usage
 
-## Shared Package (`@auth/shared`)
+This package is automatically built by the root start scripts.
 
-The shared package contains only the minimal, truly shared code used by both frontend and backend:
+Manual build:
 
-### Structure
-
-```
-shared/
-├── src/
-│   ├── enums/
-│   │   ├── user-role.enum.ts   # UserRole enum
-│   │   └── index.ts
-│   ├── entities/
-│   │   ├── user.entity.ts      # User interface
-│   │   └── index.ts
-│   ├── dtos/
-│   │   ├── user.dto.ts         # CreateUserDto, UpdateUserDto
-│   │   ├── auth.dto.ts         # LoginDto, LoginResponse
-│   │   └── index.ts
-│   ├── interfaces/
-│   │   ├── api.interface.ts    # ApiResponse, ApiError
-│   │   ├── auth.interface.ts   # JwtPayload
-│   │   └── index.ts
-│   └── index.ts                # Main exports
-├── package.json
-├── tsconfig.json
-├── .gitignore
-└── README.md
+```bash
+npm install
+npm run build
 ```
 
-### Exported Types and Interfaces
+## 📁 Exports
 
-1. **Enums**
+- **DTOs**: `LoginDto`, `CreateUserDto`, `UpdateUserDto`
+- **Entities**: `User` interface
+- **Enums**: `UserRole` (ADMIN, USER)
 
-   - `UserRole`: User role enumeration (ADMIN, USER)
+All types are automatically available in both client and server projects.
 
-2. **Entities**
+- `User` - User entity interface
 
-   - `User`: Base user interface with id, email, names, role, status, timestamps
+### DTOs
+
+- `LoginDto` - Login request
+- `LoginResponse` - Login response with token
+- `CreateUserDto` - Create user request
+- `UpdateUserDto` - Update user request
+- `JwtPayload` - JWT token payload
+
+## 🔄 Usage
+
+```typescript
+// In frontend or backend
+import { User, UserRole, LoginDto } from '@auth/shared';
+
+const user: User = {
+  id: 1,
+  email: 'user@example.com',
+  role: UserRole.USER,
+  // ...
+};
+```
+
+## 🚀 Build
+
+```bash
+npm run build    # Compile TypeScript
+npm run dev      # Watch mode
+```
+
+- `User`: Base user interface with id, email, names, role, status, timestamps
 
 3. **DTOs**
 
@@ -66,10 +70,10 @@ shared/
 
 ```typescript
 // server/src/users/user.entity.ts
-import { UserRole, User as IUser } from "@auth/shared";
+import { UserRole, User as IUser } from '@auth/shared';
 
-@Entity("users")
-export class User implements Omit<IUser, "createdAt" | "updatedAt"> {
+@Entity('users')
+export class User implements Omit<IUser, 'createdAt' | 'updatedAt'> {
   // TypeORM decorators + shared interface implementation
 }
 ```
@@ -78,7 +82,7 @@ export class User implements Omit<IUser, "createdAt" | "updatedAt"> {
 
 ```typescript
 // server/src/users/user.dto.ts
-import { UserRole, CreateUserDto as ICreateUserDto } from "@auth/shared";
+import { UserRole, CreateUserDto as ICreateUserDto } from '@auth/shared';
 
 export class CreateUserDto implements ICreateUserDto {
   @IsEmail()

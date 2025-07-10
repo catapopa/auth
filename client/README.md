@@ -1,59 +1,41 @@
-# client
+# Client (Angular Frontend)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.15.
+Modern Angular app with NgRx state management and PrimeNG components.
 
-## Development server
+## 🚀 Quick Start
 
-To start a local development server, run:
-
-```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Use the root scripts instead:
 
 ```bash
-ng generate component component-name
+cd ..
+./start-docker.sh    # or ./start-local.sh
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Or run manually:
 
 ```bash
-ng generate --help
+npm install
+npm start
 ```
 
-## Building
-
-To build the project run:
+## 📚 Scripts
 
 ```bash
-ng build
+ng serve    # Development server (http://localhost:4200)
+ng build    # Build for production
+ng test     # Unit tests
+ng lint     # ESLint
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## 🎨 Features
 
-## Running unit tests
+- **Authentication**: Login/logout with JWT
+- **User Management**: CRUD operations (admin only)
+- **Responsive UI**: PrimeNG components
+- **State Management**: NgRx for app state
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+1. Login with email/password
+2. JWT token stored in localStorage
+3. Automatic token refresh
+4. Route guards protect authenticated areas
+5. Role-based access control (Admin/User)

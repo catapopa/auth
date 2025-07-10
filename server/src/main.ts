@@ -8,7 +8,10 @@ async function bootstrap() {
 
   // Enable CORS for frontend and Swagger
   app.enableCors({
-    origin: ['http://localhost:4200', 'https://auth-production-32b4.up.railway.app'],
+    origin: [
+      'http://localhost:4200',
+      'https://auth-production-32b4.up.railway.app',
+    ],
     credentials: true,
     allowedHeaders: ['Content-Type', 'Authorization'],
   });

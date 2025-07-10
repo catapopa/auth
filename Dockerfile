@@ -19,7 +19,7 @@ COPY server ./
 RUN npm run build
 
 # Debug: Show what was actually built
-RUN echo "=== Build output ===" && ls -la dist/ && echo "=== Source directory ===" && ls -la dist/src/
+RUN echo "=== Build output ===" && ls -la dist/ && echo "=== Source directory ===" && ls -la dist/src/ && echo "=== Migrations ===" && ls -la dist/src/migrations/ 2>/dev/null || echo "No migrations found"
 
 EXPOSE 3000
 

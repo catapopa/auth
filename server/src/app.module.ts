@@ -32,10 +32,10 @@ import { GlobalExceptionFilter } from './common/filters/global-exception.filter'
         ? undefined
         : process.env.DB_NAME || 'auth_db',
       entities: [User],
-      migrations: ['dist/migrations/*.js'],
+      migrations: ['dist/src/migrations/*.js'],
       migrationsRun: true, // Automatically run migrations on startup
       synchronize: false, // Disable synchronize when using migrations
-      logging: false,
+      logging: true, // Enable logging to see what's happening
     }),
     UsersModule,
     AuthModule,

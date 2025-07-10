@@ -14,11 +14,23 @@ import { GlobalExceptionFilter } from './common/filters/global-exception.filter'
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: process.env.DB_HOST || 'localhost',
-      port: parseInt(process.env.DB_PORT || '5432'),
-      username: process.env.DB_USERNAME || 'postgres',
-      password: process.env.DB_PASSWORD || 'postgres',
-      database: process.env.DB_NAME || 'auth_db',
+      // Use DATABASE_URL for production (Railway), fall back to individual vars for local
+      url: process.env.DATABASE_URL,
+      host: process.env.DATABASE_URL
+        ? undefined
+        : process.env.DB_HOST || 'localhost',
+      port: process.env.DATABASE_URL
+        ? undefined
+        : parseInt(process.env.DB_PORT || '5432'),
+      username: process.env.DATABASE_URL
+        ? undefined
+        : process.env.DB_USERNAME || 'postgres',
+      password: process.env.DATABASE_URL
+        ? undefined
+        : process.env.DB_PASSWORD || 'postgres',
+      database: process.env.DATABASE_URL
+        ? undefined
+        : process.env.DB_NAME || 'auth_db',
       entities: [User],
       migrations: ['dist/migrations/*.js'],
       migrationsRun: true, // Automatically run migrations on startup

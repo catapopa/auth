@@ -19,9 +19,9 @@ COPY server ./
 RUN npm run build
 
 # Debug: Show what was actually built
-RUN echo "=== Build output ===" && ls -la dist/ && echo "=== Main file ===" && ls -la dist/main*
+RUN echo "=== Build output ===" && ls -la dist/ && echo "=== Source directory ===" && ls -la dist/src/
 
 EXPOSE 3000
 
-# Use direct node command instead of npm script
-CMD ["node", "dist/main.js"]
+# Use the correct path - main.js is in dist/src/
+CMD ["node", "dist/src/main.js"]

@@ -2,18 +2,22 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-# Copy shared package first
+# Copy and build shared package
 COPY shared ./shared
 WORKDIR /app/shared
 RUN npm install && npm run build
 
 # Copy server files
 WORKDIR /app
-COPY server/package*.json ./
+COPY server ./server
+
+# Install server dependencies
+WORKDIR /app/server
 RUN npm install
 
-# Copy server source
-COPY server .
+# Manually copy shared package to node_modules
+RUN mkdir -p node_modules/@auth
+RUN cp -r ../shared node_modules/@auth/shared
 
 # Build server
 RUN npm run build

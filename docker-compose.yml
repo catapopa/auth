@@ -14,5 +14,29 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  backend:
+    build: ./server
+    container_name: auth_backend
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/auth_db
+      JWT_SECRET: your-super-secret-jwt-key-change-this-in-production
+      NODE_ENV: production
+
+  frontend:
+    build: ./client
+    container_name: auth_frontend
+    restart: always
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
+    environment:
+      API_URL: http://backend:3000
+
 volumes:
   postgres_data:

@@ -1,0 +1,11 @@
+[build]
+builder = "dockerfile"
+
+[deploy]
+dockerfilePath = "docker-compose.yml"
+
+[environments.production]
+variables = [
+  { name = "NODE_ENV", value = "production" },
+  { name = "JWT_SECRET", value = "your-super-secret-jwt-key-change-this-in-production" }
+]

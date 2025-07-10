@@ -18,9 +18,10 @@ COPY server ./
 # Build server
 RUN npm run build
 
-# Verify the build output
-RUN ls -la dist/ && ls -la dist/
+# Debug: Show what was actually built
+RUN echo "=== Build output ===" && ls -la dist/ && echo "=== Main file ===" && ls -la dist/main*
 
 EXPOSE 3000
 
-CMD ["npm", "run", "start:prod"]
+# Use direct node command instead of npm script
+CMD ["node", "dist/main.js"]

@@ -6,10 +6,11 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // Enable CORS for frontend
+  // Enable CORS for frontend and Swagger
   app.enableCors({
-    origin: 'http://localhost:4200',
+    origin: ['http://localhost:4200', 'https://auth-production-32b4.up.railway.app'],
     credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization'],
   });
 
   // Enable validation pipes

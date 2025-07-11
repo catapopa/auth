@@ -3,7 +3,6 @@
 # Backend Service
 [[services]]
 name = "auth-backend"
-source = "."
 dockerfile = "Dockerfile"
 
 [services.variables]
@@ -11,16 +10,20 @@ NODE_ENV = "production"
 APP_ENV = "prod"
 PORT = "3000"
 HOST = "0.0.0.0"
-JWT_SECRET = "your-super-secret-jwt-key-change-this-in-production"
+JWT_SECRET = "${{JWT_SECRET}}"
 JWT_EXPIRES_IN = "24h"
 LOG_LEVEL = "info"
+CLIENT_URL = "${{CLIENT_URL}}"
+CORS_ORIGINS = "${{CLIENT_URL}}"
 
-# Frontend Service
+# Frontend Service  
 [[services]]
 name = "auth-frontend"
-source = "."
 dockerfile = "client/Dockerfile"
 
 [services.variables]
 NODE_ENV = "production"
 PORT = "80"
+
+[services.build]
+args = { API_URL = "${{API_URL}}", CLIENT_URL = "${{CLIENT_URL}}" }

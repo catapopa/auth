@@ -1,6 +1,10 @@
 # Multi-stage build for Angular application
 FROM node:18-alpine AS builder
 
+# Build arguments
+ARG API_URL=https://your-api.railway.app
+ARG CLIENT_URL=https://your-app.railway.app
+
 # Set working directory
 WORKDIR /app
 
@@ -16,6 +20,10 @@ RUN npm install
 
 # Copy client source code
 COPY client ./
+
+# Replace environment variables in the production config
+RUN sed -i "s|https://your-api.railway.app|$API_URL|g" src/environments/environment.prod.ts
+RUN sed -i "s|https://your-app.railway.app|$CLIENT_URL|g" src/environments/environment.prod.ts
 
 # Build for production
 RUN npm run build:prod

@@ -45,6 +45,22 @@ export function loadConfig(): AppConfig {
     ? process.env.CORS_ORIGINS.split(',')
     : ['http://localhost:4200'];
 
+  // Add production URLs if they're not already included
+  if (env === 'production') {
+    const productionUrls = [
+      'https://auth-web-production.up.railway.app',
+      'https://auth-production-32b4.up.railway.app',
+    ];
+
+    productionUrls.forEach((url) => {
+      if (!corsOrigins.includes(url)) {
+        corsOrigins.push(url);
+      }
+    });
+  }
+
+  console.log('CORS origins loaded:', corsOrigins);
+
   return {
     env,
     port: parseInt(process.env.PORT || '3000'),

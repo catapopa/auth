@@ -13,7 +13,9 @@ async function bootstrap() {
     app.enableCors({
       origin: config.cors.origins,
       credentials: true,
-      allowedHeaders: ['Content-Type', 'Authorization'],
+      allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+      methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+      optionsSuccessStatus: 200,
     });
 
     // Enable validation pipes
@@ -21,7 +23,7 @@ async function bootstrap() {
       new ValidationPipe({
         transform: true,
         whitelist: true,
-      }),
+      })
     );
 
     // Swagger API Documentation
@@ -36,11 +38,11 @@ async function bootstrap() {
 
     await app.listen(config.port, config.host);
     console.log(
-      `Application is running on: http://${config.host}:${config.port}`,
+      `Application is running on: http://${config.host}:${config.port}`
     );
     console.log(`Environment: ${config.env}`);
     console.log(
-      `API Documentation available at: http://${config.host}:${config.port}/api/docs`,
+      `API Documentation available at: http://${config.host}:${config.port}/api/docs`
     );
   } catch (error) {
     console.error('Application failed to start:', error);
@@ -48,4 +50,4 @@ async function bootstrap() {
   }
 }
 
-bootstrap();
+void bootstrap();

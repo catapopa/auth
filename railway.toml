@@ -1,4 +1,5 @@
 # Railway Configuration for Full-Stack Auth App
+# Minimal configuration - environment variables set manually in Railway dashboard
 
 # Backend Service
 [[services]]
@@ -6,28 +7,8 @@ name = "auth"
 dockerfile = "Dockerfile"
 root = "."
 
-[services.variables]
-NODE_ENV = "production"
-APP_ENV = "prod"
-PORT = "8080"
-HOST = "0.0.0.0"
-JWT_SECRET = "${{JWT_SECRET}}"
-JWT_EXPIRES_IN = "24h"
-LOG_LEVEL = "info"
-CLIENT_URL = "${{CLIENT_URL}}"
-CORS_ORIGINS = "${{CLIENT_URL}}"
-
 # Frontend Service  
 [[services]]
 name = "auth-web"
-dockerfile = "Dockerfile.frontend"
+dockerfile = "client/Dockerfile"
 root = "."
-
-[services.variables]
-NODE_ENV = "production"
-PORT = "80"
-API_URL = "https://auth-production-32b4.up.railway.app"
-CLIENT_URL = "https://auth-web-production.up.railway.app"
-
-[services.build]
-args = { API_URL = "https://auth-production-32b4.up.railway.app", CLIENT_URL = "https://auth-web-production.up.railway.app" }

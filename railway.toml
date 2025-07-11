@@ -9,7 +9,7 @@ root = "."
 [services.variables]
 NODE_ENV = "production"
 APP_ENV = "prod"
-PORT = "3000"
+PORT = "8080"
 HOST = "0.0.0.0"
 JWT_SECRET = "${{JWT_SECRET}}"
 JWT_EXPIRES_IN = "24h"

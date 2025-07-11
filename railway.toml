@@ -2,8 +2,9 @@
 
 # Backend Service
 [[services]]
-name = "auth-backend"
+name = "auth"
 dockerfile = "Dockerfile"
+root = "."
 
 [services.variables]
 NODE_ENV = "production"
@@ -18,12 +19,15 @@ CORS_ORIGINS = "${{CLIENT_URL}}"
 
 # Frontend Service  
 [[services]]
-name = "auth-frontend"
-dockerfile = "client/Dockerfile"
+name = "auth-web"
+dockerfile = "Dockerfile.frontend"
+root = "."
 
 [services.variables]
 NODE_ENV = "production"
 PORT = "80"
+API_URL = "https://auth-production-32b4.up.railway.app"
+CLIENT_URL = "https://auth-web-production.up.railway.app"
 
 [services.build]
-args = { API_URL = "${{API_URL}}", CLIENT_URL = "${{CLIENT_URL}}" }
+args = { API_URL = "https://auth-production-32b4.up.railway.app", CLIENT_URL = "https://auth-web-production.up.railway.app" }

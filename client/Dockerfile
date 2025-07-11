@@ -21,10 +21,6 @@ RUN npm install
 # Copy client source code
 COPY client ./
 
-# Replace environment variables in the production config
-RUN sed -i "s|https://your-api.railway.app|$API_URL|g" src/environments/environment.prod.ts
-RUN sed -i "s|https://your-app.railway.app|$CLIENT_URL|g" src/environments/environment.prod.ts
-
 # Build for production
 RUN npm run build:prod
 
@@ -32,7 +28,7 @@ RUN npm run build:prod
 FROM nginx:alpine
 
 # Copy built app from builder stage
-COPY --from=builder /app/client/dist/client /usr/share/nginx/html
+COPY --from=builder /app/client/dist/client/browser /usr/share/nginx/html
 
 # Copy nginx configuration
 COPY client/nginx.conf /etc/nginx/conf.d/default.conf

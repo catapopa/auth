@@ -43,8 +43,7 @@ required_files=(
     "railway.toml"
     "Dockerfile"
     "client/Dockerfile"
-    "nginx.conf"
-    ".env.prod.example"
+    "client/nginx.conf"
     "client/src/environments/environment.prod.ts"
 )
 
@@ -58,25 +57,13 @@ for file in "${required_files[@]}"; do
 done
 
 # Check if environment templates exist
-print_info "Checking environment templates..."
-env_templates=(".env.example" ".env.local.example" ".env.dev.example" ".env.prod.example")
-for template in "${env_templates[@]}"; do
-    if [[ -f "$template" ]]; then
-        print_status "Found $template"
-    else
-        print_warning "Missing template: $template"
-    fi
-done
-
-# Check if actual environment files exist (they shouldn't for security)
-print_info "Checking environment files are not committed..."
+print_info "Checking if environment files are properly configured..."
 env_files=(".env" ".env.local" ".env.dev" ".env.prod")
 for env_file in "${env_files[@]}"; do
     if [[ -f "$env_file" ]]; then
-        print_warning "Found $env_file - this should not be committed to git!"
-        print_info "Environment files with secrets should be in .gitignore"
+        print_status "Found $env_file"
     else
-        print_status "$env_file not found (good - it shouldn't be committed)"
+        print_error "Missing $env_file - run setup-env.sh to create it"
     fi
 done
 

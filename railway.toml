@@ -18,15 +18,9 @@ LOG_LEVEL = "info"
 # Frontend Service
 [[services]]
 name = "auth-frontend"
-source = "client"
+source = "."
 dockerfile = "client/Dockerfile"
 
 [services.variables]
 NODE_ENV = "production"
-
-# Legacy support - will be ignored in Railway v2
-[build]
-builder = "dockerfile"
-
-[deploy]
-dockerfilePath = "Dockerfile"
+PORT = "80"

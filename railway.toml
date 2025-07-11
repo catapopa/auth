@@ -1,11 +1,32 @@
+# Railway Configuration for Full-Stack Auth App
+
+# Backend Service
+[[services]]
+name = "auth-backend"
+source = "."
+dockerfile = "Dockerfile"
+
+[services.variables]
+NODE_ENV = "production"
+APP_ENV = "prod"
+PORT = "3000"
+HOST = "0.0.0.0"
+JWT_SECRET = "your-super-secret-jwt-key-change-this-in-production"
+JWT_EXPIRES_IN = "24h"
+LOG_LEVEL = "info"
+
+# Frontend Service
+[[services]]
+name = "auth-frontend"
+source = "client"
+dockerfile = "client/Dockerfile"
+
+[services.variables]
+NODE_ENV = "production"
+
+# Legacy support - will be ignored in Railway v2
 [build]
 builder = "dockerfile"
 
 [deploy]
 dockerfilePath = "Dockerfile"
-
-[environments.production]
-variables = [
-  { name = "NODE_ENV", value = "production" },
-  { name = "JWT_SECRET", value = "your-super-secret-jwt-key-change-this-in-production" }
-]

@@ -18,10 +18,10 @@ COPY server ./
 # Build server
 RUN npm run build
 
-# Debug: Show what was actually built
-RUN echo "=== Build output ===" && ls -la dist/ && echo "=== Source directory ===" && ls -la dist/src/ && echo "=== Migrations ===" && ls -la dist/src/migrations/ 2>/dev/null || echo "No migrations found"
+# Note: Environment variables are provided by Railway, not files
+# No need to copy .env files in production
 
 EXPOSE 3000
 
-# Debug environment variables at startup
-CMD ["sh", "-c", "echo 'DATABASE_URL:' $DATABASE_URL && echo 'JWT_SECRET:' $JWT_SECRET && node dist/src/main.js"]
+# Start the server
+CMD ["node", "dist/src/main.js"]

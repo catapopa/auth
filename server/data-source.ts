@@ -1,4 +1,22 @@
 import { DataSource } from 'typeorm';
+import { config } from 'dotenv';
+import { join } from 'path';
+
+// Load environment-specific configuration
+const env = process.env.NODE_ENV || 'development';
+const appEnv = process.env.APP_ENV || 'local';
+
+const envFiles = [
+  `.env.${appEnv}`,
+  `.env`,
+  `.env.${env}`
+];
+
+// Load env files in order of priority
+envFiles.forEach(file => {
+  const path = join(process.cwd(), '..', file);
+  config({ path, override: false });
+});
 
 export const AppDataSource = new DataSource({
   type: 'postgres',

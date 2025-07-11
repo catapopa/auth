@@ -1,0 +1,52 @@
+{
+  "name": "auth-fullstack",
+  "version": "1.0.0",
+  "description": "Full-stack authentication application with Angular and NestJS",
+  "private": true,
+  "workspaces": [
+    "client",
+    "server",
+    "shared"
+  ],
+  "scripts": {
+    "install:all": "npm install && npm run install:client && npm run install:server && npm run install:shared",
+    "install:client": "cd client && npm install",
+    "install:server": "cd server && npm install",
+    "install:shared": "cd shared && npm install",
+    "build:all": "npm run build:shared && npm run build:server && npm run build:client",
+    "build:shared": "cd shared && npm run build",
+    "build:server": "cd server && npm run build",
+    "build:client": "cd client && npm run build",
+    "build:client:prod": "cd client && npm run build:prod",
+    "start:local": "concurrently \"npm run start:server:local\" \"npm run start:client:local\"",
+    "start:dev": "concurrently \"npm run start:server:dev\" \"npm run start:client:dev\"",
+    "start:server:local": "cd server && npm run start:local",
+    "start:server:dev": "cd server && npm run start:dev",
+    "start:client:local": "cd client && npm run start",
+    "start:client:dev": "cd client && npm run start:dev",
+    "docker:build": "docker-compose build",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f",
+    "railway:deploy": "railway up",
+    "lint": "npm run lint:server && npm run lint:client",
+    "lint:server": "cd server && npm run lint",
+    "lint:client": "cd client && npm run lint",
+    "test": "npm run test:server && npm run test:client",
+    "test:server": "cd server && npm run test",
+    "test:client": "cd client && npm run test",
+    "env:setup": "./setup-env.sh",
+    "env:local": "./setup-env.sh local",
+    "env:dev": "./setup-env.sh dev",
+    "env:prod": "./setup-env.sh prod"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "author": "",
+  "license": "MIT"
+}

@@ -13,13 +13,10 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
-# Environment files
+# Environment files (NEVER commit these)
 .env
 .env.*
 !.env.example
-.env.development
-.env.test
-.env.production
 
 # temp directory
 .temp
@@ -60,3 +57,22 @@ out/
 # Server
 /server/dist/
 /server/node_modules/
+
+# Shared
+/shared/dist/
+/shared/node_modules/
+
+# Coverage reports
+coverage/
+*.lcov
+.nyc_output/
+
+# Test results
+junit.xml
+test-results/
+
+# Cache directories
+.cache/
+.parcel-cache/
+.eslintcache
+.swc/

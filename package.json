@@ -9,7 +9,6 @@
     "shared"
   ],
   "scripts": {
-    "install:all": "npm install",
     "build:all": "npm run build --workspaces --if-present",
     "build:shared": "npm run build --workspace=shared",
     "build:server": "npm run build --workspace=server",

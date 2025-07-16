@@ -15,7 +15,7 @@ Modern authentication system with Angular 19 + NestJS. JWT auth, role-based acce
 # 1. Clone and install
 git clone <repo-url>
 cd auth
-npm run install:all
+npm install
 
 # 2. Setup environment
 cp .env.example .env

@@ -1,26 +1,25 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideMockStore } from '@ngrx/store/testing';
+import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { AuthService } from './core/services';
+import { Store } from '@ngrx/store';
 
 describe('AppComponent', () => {
   let component: AppComponent;
-  let fixture: ComponentFixture<AppComponent>;
   let mockAuthService: jasmine.SpyObj<AuthService>;
+  let mockStore: jasmine.SpyObj<Store>;
 
-  beforeEach(async () => {
+  beforeEach(() => {
     mockAuthService = jasmine.createSpyObj('AuthService', ['getToken']);
+    mockStore = jasmine.createSpyObj('Store', ['dispatch']);
     
-    await TestBed.configureTestingModule({
-      imports: [AppComponent],
+    TestBed.configureTestingModule({
       providers: [
-        provideMockStore({}),
-        { provide: AuthService, useValue: mockAuthService }
+        { provide: AuthService, useValue: mockAuthService },
+        { provide: Store, useValue: mockStore }
       ]
-    }).compileComponents();
+    });
 
-    fixture = TestBed.createComponent(AppComponent);
-    component = fixture.componentInstance;
+    component = new AppComponent(mockStore, mockAuthService);
   });
 
   it('should create the app', () => {
@@ -33,10 +32,17 @@ describe('AppComponent', () => {
 
   it('should initialize auth state when token exists', () => {
     mockAuthService.getToken.and.returnValue('mock-token');
-    spyOn(component['store'], 'dispatch');
     
     component.ngOnInit();
     
-    expect(component['store'].dispatch).toHaveBeenCalled();
+    expect(mockStore.dispatch).toHaveBeenCalled();
+  });
+
+  it('should not initialize auth state when token does not exist', () => {
+    mockAuthService.getToken.and.returnValue(null);
+    
+    component.ngOnInit();
+    
+    expect(mockStore.dispatch).not.toHaveBeenCalled();
   });
 });

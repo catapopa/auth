@@ -8,12 +8,12 @@ import { User as UserEntity } from '../modules/users/user.entity';
 export class AuthService {
   constructor(
     private usersService: UsersService,
-    private jwtService: JwtService,
+    private jwtService: JwtService
   ) {}
 
   async validateUser(
     email: string,
-    password: string,
+    password: string
   ): Promise<Omit<UserEntity, 'password'> | null> {
     const user = await this.usersService.findByEmail(email);
     if (
@@ -35,7 +35,7 @@ export class AuthService {
       const existingUser = await this.usersService.findByEmail(loginDto.email);
       if (existingUser && !existingUser.isActive) {
         throw new UnauthorizedException(
-          'Account is deactivated. Please contact an administrator.',
+          'Account is deactivated. Please contact an administrator.'
         );
       }
       throw new UnauthorizedException('Invalid credentials');

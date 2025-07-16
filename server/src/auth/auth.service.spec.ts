@@ -81,7 +81,7 @@ describe('AuthService', () => {
 
       const result = await service.validateUser(
         'test@example.com',
-        'wrongpassword',
+        'wrongpassword'
       );
 
       expect(result).toBeNull();
@@ -92,7 +92,7 @@ describe('AuthService', () => {
 
       const result = await service.validateUser(
         'nonexistent@example.com',
-        'password',
+        'password'
       );
 
       expect(result).toBeNull();
@@ -110,11 +110,11 @@ describe('AuthService', () => {
         service.login({
           email: 'test@example.com',
           password: 'password',
-        }),
+        })
       ).rejects.toThrow(
         new UnauthorizedException(
-          'Account is deactivated. Please contact an administrator.',
-        ),
+          'Account is deactivated. Please contact an administrator.'
+        )
       );
     });
 
@@ -125,7 +125,7 @@ describe('AuthService', () => {
         service.login({
           email: 'nonexistent@example.com',
           password: 'password',
-        }),
+        })
       ).rejects.toThrow(new UnauthorizedException('Invalid credentials'));
     });
 

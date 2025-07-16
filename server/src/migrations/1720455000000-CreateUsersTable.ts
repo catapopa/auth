@@ -6,7 +6,7 @@ export class CreateUsersTable1720455000000 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     // Create enum type for user roles
     await queryRunner.query(
-      `CREATE TYPE "user_role_enum" AS ENUM('admin', 'user')`,
+      `CREATE TYPE "user_role_enum" AS ENUM('admin', 'user')`
     );
 
     // Create users table
@@ -70,7 +70,7 @@ export class CreateUsersTable1720455000000 implements MigrationInterface {
           },
         ],
       }),
-      true,
+      true
     );
 
     // Create index on email for faster lookups
@@ -79,7 +79,7 @@ export class CreateUsersTable1720455000000 implements MigrationInterface {
       new TableIndex({
         name: 'IDX_USERS_EMAIL',
         columnNames: ['email'],
-      }),
+      })
     );
 
     // Insert default admin user (password is 'Admin@2024#Secure!' hashed)

@@ -13,7 +13,7 @@ import * as bcrypt from 'bcryptjs';
 export class UsersService {
   constructor(
     @InjectRepository(User)
-    private usersRepository: Repository<User>,
+    private usersRepository: Repository<User>
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
@@ -80,7 +80,7 @@ export class UsersService {
 
   async validatePassword(
     password: string,
-    hashedPassword: string,
+    hashedPassword: string
   ): Promise<boolean> {
     return bcrypt.compare(password, hashedPassword);
   }
@@ -101,7 +101,6 @@ export class UsersService {
         role: UserRole.ADMIN,
       });
       await this.usersRepository.save(admin);
-      console.log('Admin user seeded: admin@example.com / Admin@2024#Secure!');
     }
   }
 }

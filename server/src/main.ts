@@ -37,13 +37,6 @@ async function bootstrap() {
     SwaggerModule.setup('api/docs', app, document);
 
     await app.listen(config.port, config.host);
-    console.log(
-      `Application is running on: http://${config.host}:${config.port}`
-    );
-    console.log(`Environment: ${config.env}`);
-    console.log(
-      `API Documentation available at: http://${config.host}:${config.port}/api/docs`
-    );
   } catch (error) {
     console.error('Application failed to start:', error);
     process.exit(1);

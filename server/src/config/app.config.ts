@@ -59,8 +59,6 @@ export function loadConfig(): AppConfig {
     });
   }
 
-  console.log('CORS origins loaded:', corsOrigins);
-
   return {
     env,
     port: parseInt(process.env.PORT || '3000'),

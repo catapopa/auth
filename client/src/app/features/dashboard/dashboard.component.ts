@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -18,7 +18,7 @@ import {
   selectIsAdmin,
   selectAuthLoading,
 } from '../auth/store/auth.selectors';
-import { User } from '@auth/shared';
+import { User, UserRole } from '@auth/shared';
 
 @Component({
   selector: 'app-dashboard',
@@ -38,19 +38,20 @@ import { User } from '@auth/shared';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
+  private store = inject(Store);
+  private confirmationService = inject(ConfirmationService);
+
   currentUser$: Observable<User | null>;
   users$: Observable<User[]>;
   isAdmin$: Observable<boolean>;
   loading$: Observable<boolean>;
 
+  readonly UserRole = UserRole;
   showDialog = false;
   selectedUser: User | null = null;
   dialogMode: 'create' | 'edit' = 'create';
 
-  constructor(
-    private store: Store,
-    private confirmationService: ConfirmationService
-  ) {
+  constructor() {
     this.currentUser$ = this.store.select(selectUser);
     this.users$ = this.store.select(selectUsers);
     this.isAdmin$ = this.store.select(selectIsAdmin);

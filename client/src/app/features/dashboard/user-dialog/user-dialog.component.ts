@@ -1,11 +1,4 @@
-import {
-  Component,
-  Input,
-  Output,
-  EventEmitter,
-  OnInit,
-  OnChanges,
-} from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnChanges, inject } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -43,6 +36,9 @@ import { CreateUserDto, UpdateUserDto, User, UserRole } from '@auth/shared';
   styleUrls: ['./user-dialog.component.scss'],
 })
 export class UserDialogComponent implements OnInit, OnChanges {
+  private fb = inject(FormBuilder);
+  private store = inject(Store);
+
   @Input() visible = false;
   @Input() user: User | null = null;
   @Input() mode: 'create' | 'edit' = 'create';
@@ -54,8 +50,6 @@ export class UserDialogComponent implements OnInit, OnChanges {
     { label: 'User', value: UserRole.USER },
     { label: 'Admin', value: UserRole.ADMIN },
   ];
-
-  constructor(private fb: FormBuilder, private store: Store) {}
 
   ngOnInit(): void {
     this.initForm();

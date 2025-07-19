@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -34,11 +34,14 @@ import * as AuthActions from '../store/auth.actions';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
+  private fb = inject(FormBuilder);
+  private store = inject(Store);
+
   loginForm!: FormGroup;
   loading$: Observable<boolean>;
   error$: Observable<string | null>;
 
-  constructor(private fb: FormBuilder, private store: Store) {
+  constructor() {
     this.loading$ = this.store.select(selectAuthLoading);
     this.error$ = this.store.select(selectAuthError);
   }

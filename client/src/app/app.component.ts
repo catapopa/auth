@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ToastModule } from 'primeng/toast';
@@ -13,9 +13,10 @@ import * as AuthActions from './features/auth/store/auth.actions';
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
-  title = 'User Management App';
+  private store = inject(Store);
+  private authService = inject(AuthService);
 
-  constructor(private store: Store, private authService: AuthService) {}
+  title = 'User Management App';
 
   ngOnInit(): void {
     // Initialize authentication state if token exists

@@ -50,7 +50,7 @@
           <td>
             <p-tag
               [value]="user.role"
-              [severity]="user.role === 'admin' ? 'danger' : 'info'"
+              [severity]="user.role === UserRole.ADMIN ? 'danger' : 'info'"
             />
           </td>
           <td>

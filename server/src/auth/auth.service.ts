@@ -60,7 +60,11 @@ export class AuthService {
       access_token: this.jwtService.sign(payload),
       user: {
         id: userWithoutPassword.id,
-        ...payload,
+        email: userWithoutPassword.email,
+        firstName: userWithoutPassword.firstName,
+        lastName: userWithoutPassword.lastName,
+        role: userWithoutPassword.role,
+        isActive: userWithoutPassword.isActive,
       },
     };
   }

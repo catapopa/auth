@@ -6,7 +6,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
-import { CreateUserDto, UpdateUserDto, UserRole } from '@auth/shared';
+import { CreateUserDto, UpdateUserDto } from '@auth/shared';
 import * as bcrypt from 'bcryptjs';
 
 @Injectable()
@@ -83,24 +83,5 @@ export class UsersService {
     hashedPassword: string
   ): Promise<boolean> {
     return bcrypt.compare(password, hashedPassword);
-  }
-
-  // Seed initial admin user
-  async seedAdminUser(): Promise<void> {
-    const adminExists = await this.usersRepository.findOne({
-      where: { role: UserRole.ADMIN },
-    });
-
-    if (!adminExists) {
-      const hashedPassword = await bcrypt.hash('Admin@2024#Secure!', 10);
-      const admin = this.usersRepository.create({
-        email: 'admin@example.com',
-        firstName: 'Admin',
-        lastName: 'User',
-        password: hashedPassword,
-        role: UserRole.ADMIN,
-      });
-      await this.usersRepository.save(admin);
-    }
   }
 }

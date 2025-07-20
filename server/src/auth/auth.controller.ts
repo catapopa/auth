@@ -8,7 +8,7 @@ import {
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { LoginDto } from './dto';
-import { User } from '@auth/shared';
+import { LoginResponse, User } from '@auth/shared';
 
 interface AuthenticatedRequest extends Request {
   user: User;
@@ -38,7 +38,7 @@ export class AuthController {
     },
   })
   @ApiResponse({ status: 401, description: 'Invalid credentials' })
-  async login(@Body() loginDto: LoginDto) {
+  async login(@Body() loginDto: LoginDto): Promise<LoginResponse> {
     return this.authService.login(loginDto);
   }
 

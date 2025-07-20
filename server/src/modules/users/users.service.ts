@@ -77,11 +77,4 @@ export class UsersService {
     const user = await this.findOne(id);
     await this.usersRepository.remove(user);
   }
-
-  async validatePassword(
-    password: string,
-    hashedPassword: string
-  ): Promise<boolean> {
-    return bcrypt.compare(password, hashedPassword);
-  }
 }
